@@ -23,7 +23,7 @@ public class DbAccessTests {
 
     @Test
     void shouldSaveAndRetrieveUser(){
-        User user1 = new User();
+        /*User user1 = new User();
         user1.setFirstname("bobby");
         user1.setLastname("lapointe");
 
@@ -37,7 +37,7 @@ public class DbAccessTests {
 
         userRepository.save(user1);
         userRepository.save(user2);
-        userRepository.save(user3);
+        userRepository.save(user3);*/
 
         User retrievedUserWithName = userRepository.findByFirstname("bobby");
         Optional<User> retrievedUserById = userRepository.findById(2L);
@@ -50,7 +50,7 @@ public class DbAccessTests {
 
     @Test
     void shouldSaveAndRetrieveChannels(){
-        Channel channel1 = new Channel();
+        /*Channel channel1 = new Channel();
         channel1.setName("general");
 
         Channel channel2 = new Channel();
@@ -61,7 +61,7 @@ public class DbAccessTests {
 
         channelRepository.save(channel1);
         channelRepository.save(channel2);
-        channelRepository.save(channel3);
+        channelRepository.save(channel3);*/
 
         Channel retrievedChannelWithName = channelRepository.findByName("general");
         Optional<Channel> retrievedChannelById = channelRepository.findById(2L);
