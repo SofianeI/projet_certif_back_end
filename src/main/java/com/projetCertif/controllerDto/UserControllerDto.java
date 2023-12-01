@@ -1,4 +1,4 @@
-package com.projetCertif.controller;
+package com.projetCertif.controllerDto;
 
 import com.projetCertif.dao.entity.User;
 import com.projetCertif.service.UserService;
@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-//@RestController
-//@RequestMapping
-public class UserController {
+@RestController
+@RequestMapping
+public class UserControllerDto {
 
     @Autowired
     private UserService userService;
