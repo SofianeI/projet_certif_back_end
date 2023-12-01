@@ -11,18 +11,18 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("api/messages")
+@RequestMapping
 public class MessageController {
 
     @Autowired
     private MessageService messageService;
 
-    @GetMapping
+    @GetMapping("messages")
     public ResponseEntity<List<Message>> getAllMessages() {
         return ResponseEntity.ok(messageService.getAllMessages());
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("messages/{id}")
     public ResponseEntity<Message> getMessageById(@PathVariable Long id) {
         Optional<Message> message = messageService.getMessageById(id);
         return message.isPresent()? ResponseEntity.ok(message.get()) : ResponseEntity.notFound().build();
@@ -34,9 +34,13 @@ public class MessageController {
         return ResponseEntity.status(HttpStatus.CREATED).body(addedMessage);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("messages/{id}")
     public ResponseEntity<Void>deleteMessage(@PathVariable Long id) {
         messageService.deleteMessage(id);
         return ResponseEntity.noContent().build();
     }
+
+    //UPDATE MESSAGE
+
+
 }
