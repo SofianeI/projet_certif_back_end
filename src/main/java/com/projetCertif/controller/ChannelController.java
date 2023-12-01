@@ -39,4 +39,16 @@ public class ChannelController {
         channelService.deleteChannel(id);
         return ResponseEntity.noContent().build();
     }
+
+    // UPDATE CHANNEL
+    @PutMapping("channels")
+    public ResponseEntity update(@RequestBody Channel channel) {
+
+        Channel channelUpdate =  channelService.updateChannel(channel);
+        if(channelUpdate !=null)
+            return ResponseEntity.status(204).body("Channel successfully updated");
+        else
+             return ResponseEntity.status(403).build();
+
+    }
 }

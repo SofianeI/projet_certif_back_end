@@ -1,5 +1,6 @@
 package com.projetCertif.controller;
 
+import com.projetCertif.dao.entity.Channel;
 import com.projetCertif.dao.entity.Message;
 import com.projetCertif.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +41,16 @@ public class MessageController {
         return ResponseEntity.noContent().build();
     }
 
-    //UPDATE MESSAGE
+    // UPDATE MESSAGE
+    @PutMapping("messages")
+    public ResponseEntity update(@RequestBody Message message) {
 
+        Message msgUpdate =  messageService.updateMessage(message);
+        if(msgUpdate !=null)
+            return ResponseEntity.status(204).body("Message successfully updated");
+        else
+            return ResponseEntity.status(403).build();
+
+    }
 
 }
