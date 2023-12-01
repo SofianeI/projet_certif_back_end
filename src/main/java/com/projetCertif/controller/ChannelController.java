@@ -28,7 +28,7 @@ public class ChannelController {
         return channel.isPresent()? ResponseEntity.ok(channel.get()) : ResponseEntity.notFound().build();
     }
 
-    @PostMapping
+    @PostMapping("channels")
     public ResponseEntity<Channel> addChannel(@RequestBody Channel channel) {
         Channel addedChannel = channelService.addChannel(channel);
         return ResponseEntity.status(HttpStatus.CREATED).body(addedChannel);

@@ -27,7 +27,7 @@ public class UserController {
         return user.isPresent() ? ResponseEntity.ok(user.get()) : ResponseEntity.notFound().build();
     }
 
-    @PostMapping
+    @PostMapping("users")
     public ResponseEntity<User> addUser(@RequestBody User user) {
         User addedUser = userService.addUser(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(addedUser);
