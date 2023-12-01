@@ -14,5 +14,4 @@ public class Channel {
     @Column(name = "name", nullable = false)
     private String name;
 
-
 }
