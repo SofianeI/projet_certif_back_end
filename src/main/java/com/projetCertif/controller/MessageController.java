@@ -18,23 +18,27 @@ public class MessageController {
     @Autowired
     private MessageService messageService;
 
+    //GET ALL MESSAGES
     @GetMapping("messages")
     public ResponseEntity<List<Message>> getAllMessages() {
         return ResponseEntity.ok(messageService.getAllMessages());
     }
 
+    //GET MESSAGE BY ID
     @GetMapping("messages/{id}")
     public ResponseEntity<Message> getMessageById(@PathVariable Long id) {
         Optional<Message> message = messageService.getMessageById(id);
         return message.isPresent()? ResponseEntity.ok(message.get()) : ResponseEntity.notFound().build();
     }
 
+    //POST NEW MESSAGE
     @PostMapping("messages")
     public ResponseEntity<Message> addMessage(@RequestBody Message message) {
         Message addedMessage = messageService.addMessage(message);
         return ResponseEntity.status(HttpStatus.CREATED).body(addedMessage);
     }
 
+    //DELETE MESSAGE
     @DeleteMapping("messages/{id}")
     public ResponseEntity<Void>deleteMessage(@PathVariable Long id) {
         messageService.deleteMessage(id);

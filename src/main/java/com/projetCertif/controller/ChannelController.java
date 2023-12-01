@@ -17,23 +17,27 @@ public class ChannelController {
     @Autowired
     private ChannelService channelService;
 
+    // GET ALL CHANNELS
     @GetMapping("channels")
     public ResponseEntity<List<Channel>> getAllChannels() {
         return ResponseEntity.ok(channelService.getAllChannels());
     }
 
+    //GET CHANNEL BY ID
     @GetMapping("channels/{id}")
     public ResponseEntity<Channel> getChannelById(@PathVariable Long id) {
         Optional<Channel> channel = channelService.getChannelById(id);
         return channel.isPresent()? ResponseEntity.ok(channel.get()) : ResponseEntity.notFound().build();
     }
 
+    //POST NEW CHANNEL
     @PostMapping("channels")
     public ResponseEntity<Channel> addChannel(@RequestBody Channel channel) {
         Channel addedChannel = channelService.addChannel(channel);
         return ResponseEntity.status(HttpStatus.CREATED).body(addedChannel);
     }
 
+    //DELETE CHANNEL
     @DeleteMapping("channels/{id}")
     public ResponseEntity<Void> deleteChannel(@PathVariable Long id) {
         channelService.deleteChannel(id);
