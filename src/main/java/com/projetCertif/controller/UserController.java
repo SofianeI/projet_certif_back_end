@@ -17,22 +17,27 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    //GET ALL USERS
     @GetMapping("users")
     public ResponseEntity<List<User>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
     }
+
+    //GET USER BY ID
     @GetMapping("users/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
         Optional<User> user = userService.getUserById(id);
         return user.isPresent() ? ResponseEntity.ok(user.get()) : ResponseEntity.notFound().build();
     }
 
+    //POST NEW USER
     @PostMapping("users")
     public ResponseEntity<User> addUser(@RequestBody User user) {
         User addedUser = userService.addUser(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(addedUser);
     }
 
+    //DELETE USER
     @DeleteMapping("users/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
