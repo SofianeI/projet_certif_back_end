@@ -17,7 +17,6 @@ public class MessageDto {
     private User utilisateur;
     private Channel canal;
     private LocalDateTime date;
-
      public static  MessageDto fromEntity(Message message) {
         if (message == null){
             //TODO throw an exception
@@ -44,7 +43,6 @@ public class MessageDto {
         message.setChannel(messageDto.getCanal());
         message.setDate(messageDto.getDate());
         return message;
-
     }
 
 

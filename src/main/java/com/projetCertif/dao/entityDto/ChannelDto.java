@@ -18,7 +18,6 @@ public class ChannelDto {
                 .nom(channel.getName())
                 .build();
     }
-
     public static Channel toEntity(ChannelDto channelDto){
         if(channelDto == null){
             //TODO throw an exception

@@ -36,7 +36,6 @@ public class UserDto {
         user.setLastname(userDto.getNom());
         user.setPicture(userDto.getImage());
         return user;
-
     }
 
 
