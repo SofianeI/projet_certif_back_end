@@ -11,18 +11,18 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("api/channels")
+@RequestMapping
 public class ChannelController {
 
     @Autowired
     private ChannelService channelService;
 
-    @GetMapping
+    @GetMapping("channels")
     public ResponseEntity<List<Channel>> getAllChannels() {
         return ResponseEntity.ok(channelService.getAllChannels());
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("channels/{id}")
     public ResponseEntity<Channel> getChannelById(@PathVariable Long id) {
         Optional<Channel> channel = channelService.getChannelById(id);
         return channel.isPresent()? ResponseEntity.ok(channel.get()) : ResponseEntity.notFound().build();
@@ -34,7 +34,7 @@ public class ChannelController {
         return ResponseEntity.status(HttpStatus.CREATED).body(addedChannel);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("channels/{id}")
     public ResponseEntity<Void> deleteChannel(@PathVariable Long id) {
         channelService.deleteChannel(id);
         return ResponseEntity.noContent().build();
