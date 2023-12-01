@@ -1,4 +1,4 @@
-package com.projetCertif.controller;
+package com.projetCertif.controllerDto;
 
 import com.projetCertif.dao.entity.Channel;
 import com.projetCertif.service.ChannelService;
@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-//@RestController
-//@RequestMapping
-public class ChannelController {
+@RestController
+@RequestMapping
+public class ChannelControllerDto {
 
     @Autowired
     private ChannelService channelService;

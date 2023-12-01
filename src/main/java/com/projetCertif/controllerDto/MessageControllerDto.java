@@ -1,6 +1,5 @@
-package com.projetCertif.controller;
+package com.projetCertif.controllerDto;
 
-import com.projetCertif.dao.entity.Channel;
 import com.projetCertif.dao.entity.Message;
 import com.projetCertif.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +10,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-//@RestController
-//@RequestMapping
-public class MessageController {
+@RestController
+@RequestMapping
+public class MessageControllerDto {
 
     @Autowired
     private MessageService messageService;
