@@ -1,1 +1,5 @@
-# projet_certif_back_end
+Projet de certification M2i 
+
+  Back-end : spring boot 
+  
+  Front-end : angular 
