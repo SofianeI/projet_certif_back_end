@@ -36,4 +36,9 @@ public class ChannelService {
     public void deleteChannel(Long id){
         channelRepository.deleteById(id);
     }
+
+    public Channel updateChannel(Channel channel) {
+        return channelRepository.save(channel);
+    }
+
 }

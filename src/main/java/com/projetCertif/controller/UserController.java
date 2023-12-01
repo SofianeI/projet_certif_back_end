@@ -40,5 +40,15 @@ public class UserController {
     }
 
     //UPDATE USER
+    @PutMapping("users")
+    public ResponseEntity update(@RequestBody User user) {
+
+        User userUpdate =  userService.updateUser(user);
+        if(userUpdate !=null)
+            return ResponseEntity.status(204).body("User successfully updated");
+        else
+            return ResponseEntity.status(403).build();
+
+    }
 
 }
