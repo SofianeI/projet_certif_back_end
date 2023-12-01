@@ -29,7 +29,7 @@ public class MessageController {
         return message.isPresent()? ResponseEntity.ok(message.get()) : ResponseEntity.notFound().build();
     }
 
-    @PostMapping
+    @PostMapping("messages")
     public ResponseEntity<Message> addMessage(@RequestBody Message message) {
         Message addedMessage = messageService.addMessage(message);
         return ResponseEntity.status(HttpStatus.CREATED).body(addedMessage);
@@ -42,7 +42,7 @@ public class MessageController {
     }
 
     // UPDATE MESSAGE
-    @PutMapping("messages")
+    @PutMapping("messages/{id}")
     public ResponseEntity update(@RequestBody Message message) {
 
         Message msgUpdate =  messageService.updateMessage(message);
