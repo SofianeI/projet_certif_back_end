@@ -1,6 +1,5 @@
 package com.projetCertif.controller;
 
-import com.projetCertif.dao.entity.Channel;
 import com.projetCertif.dao.entity.Message;
 import com.projetCertif.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;

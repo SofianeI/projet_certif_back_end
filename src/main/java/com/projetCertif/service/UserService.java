@@ -3,18 +3,12 @@ package com.projetCertif.service;
 import com.projetCertif.dao.entity.User;
 import com.projetCertif.dao.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-/*****************************************************************
- // User Service
- // getAllUsers, getUserById, addUser, deleteUser -done
- // none tested yet
- // later add updateUser
- //
- ******************************************************************/
 @Service
 public class UserService {
 
@@ -33,11 +27,27 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public void deleteUser(Long id) {
+    public void deleteUser(long id) {
         userRepository.deleteById(id);
     }
 
     public User updateUser(User user) {
         return userRepository.save(user);
+    }
+
+    public Optional<User> authenticate(String username, String password) {
+        List<User> users = userRepository.findAllByFirstname(username);
+
+        if (users.isEmpty()) {
+            return Optional.empty(); // Aucun utilisateur trouvé
+        }
+
+        User user = users.get(0);
+
+        if (password.equals(user.getLastname())) {
+            return Optional.of(user);
+        }
+
+        return Optional.empty();
     }
 }
