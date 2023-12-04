@@ -23,7 +23,7 @@ public class UserControllerDto {
 
     //GET ALL USERS
     @GetMapping("users")
-    public List<UserDto> getAllUsers(){
+    public List<UserDto> getAllUsers() throws Exception {
         List<User> users = userService.getAllUsers();
         List<UserDto> userDtos = new ArrayList<>();
         for(User user : users) {
@@ -34,7 +34,7 @@ public class UserControllerDto {
 
     //GET USER BY ID
     @GetMapping("users/{id}")
-    public Object getUserById(@PathVariable Long id) {
+    public Object getUserById(@PathVariable Long id) throws Exception {
         Optional<User> user = userService.getUserById(id);
         UserDto userDto = UserDto.fromEntity(user);
         if(userDto == null) {
@@ -46,7 +46,7 @@ public class UserControllerDto {
 
     //CREATE NEW USER
     @PostMapping("users")
-    public void addUser(@RequestBody UserDto userdto) {
+    public void addUser(@RequestBody UserDto userdto) throws Exception {
         userService.addUser(UserDto.toEntity(userdto));
     }
 
@@ -65,7 +65,7 @@ public class UserControllerDto {
 
     //UPDATE USER
     @PutMapping("users")
-    public ResponseEntity update(@RequestBody UserDto userDto) {
+    public ResponseEntity update(@RequestBody UserDto userDto) throws Exception {
         User userUpdated = userService.updateUser(UserDto.toEntity(userDto));
         if(userUpdated !=null)
             return ResponseEntity.status(200).build();

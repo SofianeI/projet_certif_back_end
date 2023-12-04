@@ -11,10 +11,11 @@ public class ChannelDto {
     private String nom;
 
     // FUNCTION WITH AN OPTIONAL PARAMETER OBJECT CHANNEL
-    public static  ChannelDto fromEntity(Optional<Channel> channel) {
+    public static  ChannelDto fromEntity(Optional<Channel> channel) throws Exception {
         if (channel == null){
-            //TODO throw an exception
-            return null;
+            // throw an exception
+             throw new Exception(" The channel is null");
+
         }
         return ChannelDto.builder()
                 .id(channel.get().getId())
@@ -22,10 +23,10 @@ public class ChannelDto {
                 .build();
     }
 
-    public static Channel toEntity(ChannelDto channelDto){
+    public static Channel toEntity(ChannelDto channelDto) throws Exception {
         if(channelDto == null){
-            //TODO throw an exception
-            return  null;
+            // throw an exception
+            throw new Exception(" The channel is null");
         }
         Channel channel= new Channel();
         channel.setId(channelDto.getId());

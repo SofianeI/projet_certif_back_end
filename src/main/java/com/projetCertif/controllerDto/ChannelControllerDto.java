@@ -21,7 +21,7 @@ public class ChannelControllerDto {
 
     // GET ALL CHANNELS
     @GetMapping("channels")
-    public List<ChannelDto> getAllChannels(){
+    public List<ChannelDto> getAllChannels() throws Exception {
         List<Channel> channels = channelService.getAllChannels();
         List<ChannelDto> channelDtos = new ArrayList<>();
         for(Channel c : channels) {
@@ -32,13 +32,13 @@ public class ChannelControllerDto {
 
     //CREATE  NEW CHANNEL
     @PostMapping("channels")
-    public void add(@RequestBody ChannelDto  dto){
+    public void add(@RequestBody ChannelDto  dto) throws Exception {
         channelService.addChannel(ChannelDto.toEntity(dto));
     }
 
     //GET CHANNEL BY ID
     @GetMapping("channels/{id}")
-    public Object getChannelById(@PathVariable Long id) {
+    public Object getChannelById(@PathVariable Long id) throws Exception {
         Optional<Channel> channel = channelService.getChannelById(id);
         ChannelDto channelDto = ChannelDto.fromEntity(channel);
         if(channelDto == null) {
@@ -62,7 +62,7 @@ public class ChannelControllerDto {
 
     // UPDATE CHANNEL
     @PutMapping("channels")
-    public ResponseEntity update(@RequestBody ChannelDto channelDto) {
+    public ResponseEntity update(@RequestBody ChannelDto channelDto) throws Exception {
         Channel channelUpdate = channelService.updateChannel(ChannelDto.toEntity(channelDto));
         if(channelUpdate !=null)
             return ResponseEntity.status(200).build();
