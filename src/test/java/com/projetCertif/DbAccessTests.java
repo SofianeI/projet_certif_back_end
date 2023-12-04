@@ -44,7 +44,7 @@ public class DbAccessTests {
         List<User> retrievedUsers = userRepository.findAll();
 
         assertThat(retrievedUserWithName.getFirstname()).isEqualTo("bobby");
-        assertThat(retrievedUserById.get().getId()).isEqualTo(2L);
+        assertThat(retrievedUserById.get().getId(message.get().getUser().getId())).isEqualTo(2L);
         assertThat(retrievedUsers.size()).isEqualTo(3);
     }
 
