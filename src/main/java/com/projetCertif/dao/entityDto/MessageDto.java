@@ -51,7 +51,7 @@ public class MessageDto {
         message.setContent(messageDto.getContenu());
 
 
-        // Check
+        // Check :  a revoir  ce code , tu es entrain de creer sur api id utilisateur et id canal alors on les as deja duplicate id
         if (messageDto.getUtilisateur() != null && messageDto.getUtilisateur().getId() > 0) {
             message.setUser(UserDto.toEntity(messageDto.getUtilisateur()));
         } else {
@@ -62,8 +62,8 @@ public class MessageDto {
         if (messageDto.getCanal() != null && messageDto.getCanal().getId() > 0) {
             message.setChannel(ChannelDto.toEntity(messageDto.getCanal()));
         } else {
-            Optional<Channel> channelTemp = channelService.getChannelById(messageDto.getIdCanal());
-            message.setChannel(ChannelDto.toEntity(ChannelDto.fromEntity(channelTemp)));
+             Optional<Channel> channelTemp = channelService.getChannelById(messageDto.getIdCanal());
+             message.setChannel(ChannelDto.toEntity(ChannelDto.fromEntity(channelTemp)));
         }
 
         message.setDate(LocalDateTime.now());
