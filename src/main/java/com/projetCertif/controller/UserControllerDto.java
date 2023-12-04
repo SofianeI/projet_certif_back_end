@@ -1,8 +1,6 @@
-package com.projetCertif.controllerDto;
+package com.projetCertif.controller;
 
-import com.projetCertif.dao.entity.Channel;
 import com.projetCertif.dao.entity.User;
-import com.projetCertif.dao.entityDto.ChannelDto;
 import com.projetCertif.dao.entityDto.UserDto;
 import com.projetCertif.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
