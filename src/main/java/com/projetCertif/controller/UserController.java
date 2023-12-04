@@ -19,8 +19,8 @@ public class UserController {
 
     //GET ALL USERS
     @GetMapping("users")
-    public ResponseEntity<List<User>> getAllUsers() {
-        return ResponseEntity.ok(userService.getAllUsers());
+    public ResponseEntity<Optional<List<User>>> getAllUsers() {
+        return ResponseEntity.ok(Optional.ofNullable(userService.getAllUsers()));
     }
 
     //GET USER BY ID

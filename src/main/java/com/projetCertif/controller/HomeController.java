@@ -51,6 +51,19 @@ public class HomeController {
         }
     }
 
+    @PostMapping("/register")
+    public String registerUser(@RequestParam String newUsername, @RequestParam String newPassword,
+                               @RequestParam String confirmPassword,@RequestParam String newFirstname,@RequestParam String newLastname, Model model) {
+        if (newPassword.equals(confirmPassword)) {
+            String hashedPassword = passwordEncoder.encode(newPassword);
+            userService.registerUser(newUsername, newFirstname, newLastname, hashedPassword);
+            return "redirect:/login";
+        } else {
+            model.addAttribute("error", true);
+            return "redirect:/register";
+        }
+    }
+
     // After authentication -> dashboard
     @GetMapping("/dashboard")
     public String dashboard(HttpSession session, Model model) {

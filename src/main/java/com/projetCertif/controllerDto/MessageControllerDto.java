@@ -4,7 +4,9 @@ import com.projetCertif.dao.entity.Channel;
 import com.projetCertif.dao.entity.Message;
 import com.projetCertif.dao.entityDto.ChannelDto;
 import com.projetCertif.dao.entityDto.MessageDto;
+import com.projetCertif.service.ChannelService;
 import com.projetCertif.service.MessageService;
+import com.projetCertif.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,10 @@ public class MessageControllerDto {
 
     @Autowired
     private MessageService messageService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private ChannelService channelService;
 
     // GET ALL MESSAGE
     @GetMapping("messages")
@@ -34,8 +40,9 @@ public class MessageControllerDto {
 
     //CREATE  NEW MESSAGE
     @PostMapping("messages")
-    public void add(@RequestBody MessageDto  dto){
-        messageService.addMessage(MessageDto.toEntity(dto));
+    public ResponseEntity<Void> add(@RequestBody MessageDto dto) {
+        messageService.addMessage(MessageDto.toEntity(dto, userService, channelService));
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     //GET MESSAGE BY ID
@@ -65,7 +72,7 @@ public class MessageControllerDto {
     // UPDATE MESSAGE
     @PutMapping("messages")
     public ResponseEntity update(@RequestBody MessageDto messageDto) {
-        Message msgUpdate = messageService.updateMessage(MessageDto.toEntity(messageDto));
+        Message msgUpdate = messageService.updateMessage(MessageDto.toEntity(messageDto, userService, channelService));
         if(msgUpdate !=null)
             return ResponseEntity.status(200).build();
         else
