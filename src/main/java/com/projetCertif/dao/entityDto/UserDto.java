@@ -16,10 +16,10 @@ public class UserDto {
 
 
     // FUNCTION WITH AN OPTIONAL PARAMETER OBJECT USER
-    public static  UserDto fromEntity(Optional<User> user) {
+    public static  UserDto fromEntity(Optional<User> user) throws Exception {
         if (user == null){
-            //TODO throw an exception
-            return null;
+            // throw an exception
+            throw new Exception(" The user is null");
         }
         return UserDto.builder()
                 .id(user.get().getId())
@@ -29,10 +29,10 @@ public class UserDto {
                 .build();
     }
 
-    public static User toEntity(UserDto userDto){
+    public static User toEntity(UserDto userDto) throws Exception {
         if(userDto == null){
-            //TODO throw an exception
-            return  null;
+            // throw an exception
+            throw new Exception(" The user is null");
         }
         User user= new User();
         user.setId(userDto.getId());
