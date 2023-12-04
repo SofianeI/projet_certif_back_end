@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import java.util.Collections;
 import java.util.Optional;
 
 @Controller
@@ -28,39 +27,72 @@ public class HomeController {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
+    private void handleLoginError(Model model) {
+        model.addAttribute("loginError", true);
+        model.addAttribute("loginErrorMessage", "An error occurred during login");
+    }
+
+    private void handleRegistrationError(Model model, String errorMessage) {
+        model.addAttribute("registrationError", true);
+        model.addAttribute("registrationErrorMessage", errorMessage);
+    }
+
+    private String redirectToLoginWithError(Model model, String errorMessage) {
+        model.addAttribute("error", true);
+        model.addAttribute("errorMessage", errorMessage);
+        return "redirect:/login";
+    }
+
     @GetMapping("/login")
-    public String home() {
+    public String showLoginForm(Model model) {
+        // Clear previous error messages when displaying the login form
+        model.addAttribute("error", false);
         return "login";
     }
 
     @PostMapping("/login")
     public String login(@RequestParam String username, @RequestParam String password, Model model) {
-        // User authentication through UserService
-        Optional<User> authenticatedUser = userService.authenticate(username, password);
+        try {
+            // User authentication through UserService
+            Optional<User> authenticatedUser = userService.authenticate(username, password);
 
-        if (authenticatedUser.isPresent()) {
-            // If authentication worked : add the object to the session and redirect to the dashboard
-            // need improvement (session creation)
-            model.addAttribute("auth", new UsernamePasswordAuthenticationToken(username, password));
-            model.addAttribute("username", authenticatedUser.get().getFirstname());
-            return "redirect:/dashboard";
-        } else {
-            // If authentication failed : give error message and redirect
-            model.addAttribute("error", true);
-            return "redirect:/";
+            if (authenticatedUser.isPresent()) {
+                // If authentication worked : add the object to the session and redirect to the dashboard
+                // need improvement (session creation)
+                model.addAttribute("auth", new UsernamePasswordAuthenticationToken(username, password));
+                model.addAttribute("username", authenticatedUser.get().getFirstname());
+                return "redirect:/dashboard";
+            } else {
+                // If authentication failed : give error message and redirect
+                handleLoginError(model);
+                return "login";
+            }
+
+        }catch (Exception e) {
+            handleLoginError(model);
+            return "login";
         }
+
     }
 
     @PostMapping("/register")
-    public String registerUser(@RequestParam String newUsername, @RequestParam String newPassword,
-                               @RequestParam String confirmPassword,@RequestParam String newFirstname,@RequestParam String newLastname, Model model) {
-        if (newPassword.equals(confirmPassword)) {
-            String hashedPassword = passwordEncoder.encode(newPassword);
-            userService.registerUser(newUsername, newFirstname, newLastname, hashedPassword);
-            return "redirect:/login";
-        } else {
-            model.addAttribute("error", true);
-            return "redirect:/register";
+    public String registerNewUser(
+            @RequestParam String newUsername, @RequestParam String newPassword,
+            @RequestParam String confirmPassword, @RequestParam String newFirstname,
+            @RequestParam String newLastname, Model model) {
+        try {
+            if (newPassword.equals(confirmPassword)) {
+                String hashedPassword = passwordEncoder.encode(newPassword);
+                userService.registerUser(newUsername, newFirstname, newLastname, hashedPassword);
+                return "redirect:/login";
+            } else {
+                // Passwords do not match
+                handleRegistrationError(model, "Passwords do not match.");
+                return "login";
+            }
+        } catch (Exception e) {
+            handleRegistrationError(model, "An error occurred during registration.");
+            return "login";
         }
     }
 

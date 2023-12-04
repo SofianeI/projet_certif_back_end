@@ -52,11 +52,15 @@ public class ChannelControllerDto {
     @DeleteMapping("channels/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT) // 204
     public ResponseEntity<Void> deleteChannel(@PathVariable Long id) {
-        if(channelService.getChannelById(id).isEmpty() == true)
-            return ResponseEntity.notFound().build();
-        else {
-            channelService.deleteChannel(id);
-            return ResponseEntity.ok().build();
+        if(id == 1){
+            return ResponseEntity.badRequest().build();
+        }else {
+            if(channelService.getChannelById(id).isEmpty() == true)
+                return ResponseEntity.notFound().build();
+            else {
+                channelService.deleteChannel(id);
+                return ResponseEntity.ok().build();
+            }
         }
     }
 
