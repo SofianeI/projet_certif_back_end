@@ -31,4 +31,4 @@ CREATE TABLE IF NOT EXISTS users(
     lastname VARCHAR(100) NOT NULL,
     picture VARCHAR(255)
 
-    );
+
