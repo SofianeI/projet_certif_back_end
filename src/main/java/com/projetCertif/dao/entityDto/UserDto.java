@@ -10,9 +10,10 @@ import java.util.Optional;
 public class UserDto {
 
     private int id;
+    private String pseudo;
     private String prenom;
     private String nom;
-    private String image;
+    private byte[] image;
 
 
     // FUNCTION WITH AN OPTIONAL PARAMETER OBJECT USER
@@ -23,6 +24,7 @@ public class UserDto {
         }
         return UserDto.builder()
                 .id(user.get().getId())
+                .pseudo(user.get().getUsername())
                 .prenom(user.get().getFirstname())
                 .nom(user.get().getLastname())
                 .image(user.get().getPicture())
@@ -34,13 +36,13 @@ public class UserDto {
             // throw an exception
             throw new Exception(" The user is null");
         }
-        User user= new User();
+        User user = new User();
         user.setId(userDto.getId());
+        user.setUsername(userDto.getPseudo());
         user.setFirstname(userDto.getPrenom());
         user.setLastname(userDto.getNom());
         user.setPicture(userDto.getImage());
         return user;
-
     }
 
 

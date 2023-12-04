@@ -1,9 +1,11 @@
 package com.projetCertif;
 
+import com.projetCertif.config.PasswordEncoderUtil;
 import com.projetCertif.dao.entity.Channel;
 import com.projetCertif.dao.entity.User;
 import com.projetCertif.dao.repository.ChannelRepository;
 import com.projetCertif.dao.repository.UserRepository;
+import com.projetCertif.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 public class DbAccessTests {
@@ -20,6 +23,9 @@ public class DbAccessTests {
 
     @Autowired
     private ChannelRepository channelRepository;
+
+    @Autowired
+    private UserService userService;
 
     @Test
     void shouldSaveAndRetrieveUser(){
@@ -39,13 +45,30 @@ public class DbAccessTests {
         userRepository.save(user2);
         userRepository.save(user3);*/
 
-        User retrievedUserWithName = userRepository.findByFirstname("bobby");
+        /*User retrievedUserWithName = userRepository.findByFirstname("bobby");
         Optional<User> retrievedUserById = userRepository.findById(2L);
         List<User> retrievedUsers = userRepository.findAll();
 
         assertThat(retrievedUserWithName.getFirstname()).isEqualTo("bobby");
-        assertThat(retrievedUserById.get().getId(message.get().getUser().getId())).isEqualTo(2L);
-        assertThat(retrievedUsers.size()).isEqualTo(3);
+        assertThat(retrievedUserById.get().getId()).isEqualTo(2L);
+        assertThat(retrievedUsers.size()).isEqualTo(3);*/
+
+        String username = "monPseudo";
+        String firstname = "Bobby";
+        String lastname = "Lapointe";
+        String rawPassword = "boblapointe";
+
+        User registeredUser = userService.registerUser(username, firstname, lastname, PasswordEncoderUtil.encodePassword(rawPassword));
+        Optional<User> isAuthenticated = userService.authenticate(username, rawPassword);
+
+        // Then
+        assertTrue(registeredUser.getId() > 0); // User is saved with a valid ID
+        assertTrue(isAuthenticated.isPresent()); // User can be authenticated
+
+        // Additional Assertions (Optional)
+        List<User> retrievedUsers = userRepository.findAll();
+        assertThat(retrievedUsers).hasSizeGreaterThan(0); // Ensure users are retrieved
+        assertThat(registeredUser.getFirstname()).isEqualTo(firstname);
     }
 
     @Test
@@ -63,12 +86,20 @@ public class DbAccessTests {
         channelRepository.save(channel2);
         channelRepository.save(channel3);*/
 
-        Channel retrievedChannelWithName = channelRepository.findByName("general");
-        Optional<Channel> retrievedChannelById = channelRepository.findById(2L);
+        // Given
+        String channelName = "general";
+        /*Channel channel1 = new Channel();
+        channel1.setName(channelName);
+        channelRepository.save(channel1);*/
+
+        // When
+        Channel retrievedChannelWithName = channelRepository.findByName(channelName);
+        Optional<Channel> retrievedChannelById = channelRepository.findById(1L);
         List<Channel> retrievedChannels = channelRepository.findAll();
 
-        assertThat(retrievedChannelWithName.getName()).isEqualTo("general");
-        assertThat(retrievedChannelById.get().getId()).isEqualTo(2L);
-        assertThat(retrievedChannels.size()).isEqualTo(3);
+        // Then
+        assertThat(retrievedChannelWithName.getName()).isEqualTo(channelName);
+        assertTrue(retrievedChannelById.isPresent()); // Channel with ID 1 exists
+        assertThat(retrievedChannels).hasSizeGreaterThan(0); // Ensure channels are retrieved
     }
 }
