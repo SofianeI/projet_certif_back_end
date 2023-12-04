@@ -6,10 +6,6 @@ import java.time.LocalDateTime;
 
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
 @Entity
 @Table(name = "messages")
 public class Message {

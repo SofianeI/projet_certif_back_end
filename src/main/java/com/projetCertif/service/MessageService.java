@@ -2,6 +2,7 @@ package com.projetCertif.service;
 
 import com.projetCertif.dao.entity.Message;
 import com.projetCertif.dao.repository.MessageRepository;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
