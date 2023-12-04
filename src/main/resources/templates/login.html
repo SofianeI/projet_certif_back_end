@@ -11,7 +11,7 @@
 <h2>Login Page</h2>
 
 <div th:if="${param.error}">
-    <p style="color: red;">Invalid username or password. Please try again.</p>
+    <p style="color: red;" th:text="${error}"></p>
 </div>
 
 <!-- Login Form -->
@@ -31,6 +31,12 @@
     <label for="newUsername">New Username:</label>
     <input type="text" id="newUsername" name="newUsername" required>
     <br>
+    <label for="newFirstname">First Name:</label>
+    <input type="text" id="newFirstname" name="newFirstname" required>
+    <br>
+    <label for="newLastname">Last Name:</label>
+    <input type="text" id="newLastname" name="newLastname" required>
+    <br>
     <label for="newPassword">New Password:</label>
     <input type="password" id="newPassword" name="newPassword" required>
     <br>
@@ -39,6 +45,7 @@
     <br>
     <button type="submit">Register</button>
 </form>
+
 
 </body>
 </html>

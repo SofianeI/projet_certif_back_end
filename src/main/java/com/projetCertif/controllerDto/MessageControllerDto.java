@@ -38,22 +38,20 @@ public class MessageControllerDto {
 
     //CREATE  NEW MESSAGE
     @PostMapping("messages")
-
-    public Object add(@RequestBody MessageDto dto)throws Exception  {
+    public ResponseEntity<Void> add(@RequestBody MessageDto dto)throws Exception {
         messageService.addMessage(MessageDto.toEntity(dto, userService, channelService));
         return ResponseEntity.status(HttpStatus.CREATED).build();
-
+    }
 
     //GET MESSAGE BY ID
     @GetMapping("messages/{id}")
-
-    public  MessageDto getMessageById(@PathVariable Long id) throws Exception {
+    public ResponseEntity<MessageDto> getMessageById(@PathVariable Long id) throws Exception {
         Optional<Message> message = messageService.getMessageById(id);
         MessageDto messageDto = MessageDto.fromEntity(message);
         if(messageDto == null) {
             return  ResponseEntity.notFound().build();
         } else {
-            return messageDto;
+            return ResponseEntity.ok(messageDto);
         }
     }
 
@@ -73,7 +71,6 @@ public class MessageControllerDto {
     @PutMapping("messages")
     public ResponseEntity update(@RequestBody MessageDto messageDto) throws Exception{
         Message msgUpdate = messageService.updateMessage(MessageDto.toEntity(messageDto, userService, channelService));
-
 
         if(msgUpdate !=null)
             return ResponseEntity.status(200).build();

@@ -8,13 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-/*****************************************************************
-// Channel Service
-// getAllChannels, getChannelById, addChannel, deleteChannel -done
-// none tested yet
-// later add updateChannel
-//
-******************************************************************/
+
 @Service
 public class ChannelService {
 
@@ -39,6 +33,11 @@ public class ChannelService {
 
     public Channel updateChannel(Channel channel) {
         return channelRepository.save(channel);
+    }
+
+    public Boolean checkChannelExists(String name){
+        Optional<Channel> channel = Optional.ofNullable(channelRepository.findByName(name));
+        return channel.isPresent();
     }
 
 }
