@@ -1,9 +1,9 @@
 package com.projetCertif.service;
 
+import com.projetCertif.config.PasswordEncoderUtil;
 import com.projetCertif.dao.entity.User;
 import com.projetCertif.dao.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,6 +23,7 @@ public class UserService {
         return userRepository.findById(id);
     }
 
+    //deprecated
     public User addUser(User user) {
         return userRepository.save(user);
     }
@@ -36,18 +37,35 @@ public class UserService {
     }
 
     public Optional<User> authenticate(String username, String password) {
-        List<User> users = userRepository.findAllByFirstname(username);
+        List<User> users = userRepository.findAllByUsername(username);
 
         if (users.isEmpty()) {
             return Optional.empty(); // Aucun utilisateur trouvé
         }
 
-        User user = users.get(0);
+        Optional<User> optionalUser = Optional.ofNullable(users.get(0));
 
-        if (password.equals(user.getLastname())) {
+        /*if (password.equals(user.getLastname())) {
             return Optional.of(user);
+        }*/
+        if (optionalUser.isPresent()) {
+            String hashedPassword = optionalUser.get().getPassword();
+            boolean passwordMatch = PasswordEncoderUtil.matches(password, hashedPassword);
+
+            if (passwordMatch) {
+                return optionalUser;
+            }
         }
 
         return Optional.empty();
+    }
+
+    public User registerUser(String username, String firstname, String lastname, String hashedPassword) {
+        User user = new User();
+        user.setUsername(username);
+        user.setFirstname(firstname);
+        user.setLastname(lastname);
+        user.setPassword(hashedPassword);
+        return userRepository.save(user);
     }
 }

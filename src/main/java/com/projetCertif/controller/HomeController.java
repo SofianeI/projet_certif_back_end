@@ -35,24 +35,30 @@ public class HomeController {
 
     @PostMapping("/login")
     public String login(@RequestParam String username, @RequestParam String password, Model model) {
+        // User authentication through UserService
         Optional<User> authenticatedUser = userService.authenticate(username, password);
 
         if (authenticatedUser.isPresent()) {
+            // If authentication worked : add the object to the session and redirect to the dashboard
+            // need improvement (session creation)
             model.addAttribute("auth", new UsernamePasswordAuthenticationToken(username, password));
             model.addAttribute("username", authenticatedUser.get().getFirstname());
             return "redirect:/dashboard";
         } else {
+            // If authentication failed : give error message and redirect
             model.addAttribute("error", true);
             return "redirect:/";
         }
     }
 
+    // After authentication -> dashboard
     @GetMapping("/dashboard")
     public String dashboard(HttpSession session, Model model) {
-        // Récupérer l'objet Authentication à partir de la session
+        // Get username from the session
         Authentication authentication = (Authentication) session.getAttribute("auth");
 
         if (authentication != null) {
+            // If authenticated :  give username information and redirect
             model.addAttribute("username", authentication.getName());
             model.addAttribute("users", userService.getAllUsers());
             model.addAttribute("channels", channelService.getAllChannels());

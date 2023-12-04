@@ -8,9 +8,10 @@ import lombok.*;
 public class UserDto {
 
     private int id;
+    private String pseudo;
     private String prenom;
     private String nom;
-    private String image;
+    private byte[] image;
 
         public static  UserDto fromEntity(User user) {
         if (user == null){
@@ -19,6 +20,7 @@ public class UserDto {
         }
         return UserDto.builder()
                 .id(user.getId())
+                .pseudo(user.getUsername())
                 .prenom(user.getFirstname())
                 .nom(user.getLastname())
                 .image(user.getPicture())
@@ -30,8 +32,9 @@ public class UserDto {
             //TODO throw an exception
             return  null;
         }
-        User user= new User();
+        User user = new User();
         user.setId(userDto.getId());
+        user.setUsername(userDto.getPseudo());
         user.setFirstname(userDto.getPrenom());
         user.setLastname(userDto.getNom());
         user.setPicture(userDto.getImage());
