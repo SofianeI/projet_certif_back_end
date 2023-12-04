@@ -72,7 +72,6 @@ public class MessageControllerDto {
 
     // UPDATE MESSAGE
     @PutMapping("messages")
-
     public ResponseEntity update(@RequestBody MessageDto messageDto) throws Exception{
         Message msgUpdate = messageService.updateMessage(MessageDto.toEntity(messageDto, userService, channelService));
 

@@ -39,7 +39,7 @@ public class MessageController {
 
     //POST NEW MESSAGE
     @PostMapping("messages")
-    public ResponseEntity<Message> addMessage(@RequestBody MessageDto messageDto) {
+    public ResponseEntity<Message> addMessage(@RequestBody MessageDto messageDto) throws Exception {
         Message addedMessage = messageService.addMessage(MessageDto.toEntity(messageDto, userService, channelService));
         return ResponseEntity.status(HttpStatus.CREATED).body(addedMessage);
     }
