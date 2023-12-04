@@ -1,8 +1,6 @@
 package com.projetCertif.controllerDto;
 
-import com.projetCertif.dao.entity.Channel;
 import com.projetCertif.dao.entity.Message;
-import com.projetCertif.dao.entityDto.ChannelDto;
 import com.projetCertif.dao.entityDto.MessageDto;
 import com.projetCertif.service.ChannelService;
 import com.projetCertif.service.MessageService;
