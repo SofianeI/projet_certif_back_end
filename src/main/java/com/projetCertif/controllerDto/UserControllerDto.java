@@ -1,12 +1,16 @@
 package com.projetCertif.controllerDto;
 
+import com.projetCertif.dao.entity.Channel;
 import com.projetCertif.dao.entity.User;
+import com.projetCertif.dao.entityDto.ChannelDto;
+import com.projetCertif.dao.entityDto.UserDto;
 import com.projetCertif.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,38 +23,52 @@ public class UserControllerDto {
 
     //GET ALL USERS
     @GetMapping("users")
-    public ResponseEntity<List<User>> getAllUsers() {
-        return ResponseEntity.ok(userService.getAllUsers());
+    public List<UserDto> getAllUsers(){
+        List<User> users = userService.getAllUsers();
+        List<UserDto> userDtos = new ArrayList<>();
+        for(User user : users) {
+            userDtos.add(UserDto.fromEntity(Optional.ofNullable(user)));
+        }
+        return userDtos;
     }
 
     //GET USER BY ID
     @GetMapping("users/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+    public Object getUserById(@PathVariable Long id) {
         Optional<User> user = userService.getUserById(id);
-        return user.isPresent() ? ResponseEntity.ok(user.get()) : ResponseEntity.notFound().build();
+        UserDto userDto = UserDto.fromEntity(user);
+        if(userDto == null) {
+            return  ResponseEntity.notFound().build();
+        } else {
+            return userDto;
+        }
     }
 
-    //POST NEW USER
+    //CREATE NEW USER
     @PostMapping("users")
-    public ResponseEntity<User> addUser(@RequestBody User user) {
-        User addedUser = userService.addUser(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body(addedUser);
+    public void addUser(@RequestBody UserDto userdto) {
+        userService.addUser(UserDto.toEntity(userdto));
     }
 
     //DELETE USER
     @DeleteMapping("users/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT) // 204
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        userService.deleteUser(id);
-        return ResponseEntity.noContent().build();
+        if(userService.getUserById(id).isEmpty() == true)
+            return ResponseEntity.notFound().build();
+        else {
+            userService.deleteUser(id);
+            return ResponseEntity.ok().build();
+        }
+
     }
 
     //UPDATE USER
     @PutMapping("users")
-    public ResponseEntity update(@RequestBody User user) {
-
-        User userUpdate =  userService.updateUser(user);
-        if(userUpdate !=null)
-            return ResponseEntity.status(204).body("User successfully updated");
+    public ResponseEntity update(@RequestBody UserDto userDto) {
+        User userUpdated = userService.updateUser(UserDto.toEntity(userDto));
+        if(userUpdated !=null)
+            return ResponseEntity.status(200).build();
         else
             return ResponseEntity.status(403).build();
 
