@@ -1,8 +1,6 @@
 package com.projetCertif.controllerDto;
 
-import com.projetCertif.dao.entity.Channel;
 import com.projetCertif.dao.entity.Message;
-import com.projetCertif.dao.entityDto.ChannelDto;
 import com.projetCertif.dao.entityDto.MessageDto;
 import com.projetCertif.service.ChannelService;
 import com.projetCertif.service.MessageService;
@@ -41,14 +39,15 @@ public class MessageControllerDto {
     //CREATE  NEW MESSAGE
     @PostMapping("messages")
 
-    public ResponseEntity<Void> add(@RequestBody MessageDto dto)throws Exception  {
+    public Object add(@RequestBody MessageDto dto)throws Exception  {
         messageService.addMessage(MessageDto.toEntity(dto, userService, channelService));
         return ResponseEntity.status(HttpStatus.CREATED).build();
 
 
     //GET MESSAGE BY ID
     @GetMapping("messages/{id}")
-    public Object getMessageById(@PathVariable Long id) throws Exception {
+
+    public  MessageDto getMessageById(@PathVariable Long id) throws Exception {
         Optional<Message> message = messageService.getMessageById(id);
         MessageDto messageDto = MessageDto.fromEntity(message);
         if(messageDto == null) {
