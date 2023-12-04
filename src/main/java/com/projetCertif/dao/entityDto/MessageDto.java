@@ -39,7 +39,7 @@ public class MessageDto {
     }
 
 
-    public static Message toEntity(MessageDto messageDto, UserService userService, ChannelService channelService)throws Exception{
+    public static Message toEntity(MessageDto messageDto, UserService userService, ChannelService channelService) throws Exception{
 
         if(messageDto == null){
              // throw an exception
