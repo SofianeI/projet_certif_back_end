@@ -29,7 +29,7 @@ public class MessageControllerDto {
 
     // GET ALL MESSAGE
     @GetMapping("messages")
-    public List<MessageDto> getAllMessages(){
+    public List<MessageDto> getAllMessages() throws Exception {
         List<Message> messages = messageService.getAllMessages();
         List<MessageDto> messageDtos = new ArrayList<>();
         for(Message msg : messages) {
@@ -40,14 +40,15 @@ public class MessageControllerDto {
 
     //CREATE  NEW MESSAGE
     @PostMapping("messages")
-    public ResponseEntity<Void> add(@RequestBody MessageDto dto) {
+
+    public ResponseEntity<Void> add(@RequestBody MessageDto dto)throws Exception  {
         messageService.addMessage(MessageDto.toEntity(dto, userService, channelService));
         return ResponseEntity.status(HttpStatus.CREATED).build();
-    }
+
 
     //GET MESSAGE BY ID
     @GetMapping("messages/{id}")
-    public Object getMessageById(@PathVariable Long id) {
+    public Object getMessageById(@PathVariable Long id) throws Exception {
         Optional<Message> message = messageService.getMessageById(id);
         MessageDto messageDto = MessageDto.fromEntity(message);
         if(messageDto == null) {
@@ -71,8 +72,11 @@ public class MessageControllerDto {
 
     // UPDATE MESSAGE
     @PutMapping("messages")
-    public ResponseEntity update(@RequestBody MessageDto messageDto) {
+
+    public ResponseEntity update(@RequestBody MessageDto messageDto) throws Exception{
         Message msgUpdate = messageService.updateMessage(MessageDto.toEntity(messageDto, userService, channelService));
+
+
         if(msgUpdate !=null)
             return ResponseEntity.status(200).build();
         else

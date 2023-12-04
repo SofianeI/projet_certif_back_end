@@ -23,10 +23,11 @@ public class MessageDto {
     private LocalDateTime date;
 
       // FUNCTION WITH AN OPTIONAL PARAMETER OBJECT MESSAGE
-    public static  MessageDto fromEntity(Optional<Message> message) {
+    public static  MessageDto fromEntity(Optional<Message> message) throws Exception{
         if (message == null){
-            //TODO throw an exception
-            return null;
+            // throw an exception
+            throw new Exception(" the message are null");
+
         }
         return MessageDto.builder()
                 .id(message.get().getId())
@@ -37,10 +38,13 @@ public class MessageDto {
                 .build();
     }
 
-    public static Message toEntity(MessageDto messageDto, UserService userService, ChannelService channelService){
+
+    public static Message toEntity(MessageDto messageDto, UserService userService, ChannelService channelService)throws Exception{
+
         if(messageDto == null){
-            //TODO throw an exception
-            return  null;
+             // throw an exception
+            throw new Exception(" the message is null");
+
         }
         Message message= new Message();
         message.setId(messageDto.getId());
