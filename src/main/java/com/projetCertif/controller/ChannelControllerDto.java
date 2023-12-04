@@ -1,4 +1,4 @@
-package com.projetCertif.controllerDto;
+package com.projetCertif.controller;
 
 import com.projetCertif.dao.entity.Channel;
 import com.projetCertif.dao.entityDto.ChannelDto;
