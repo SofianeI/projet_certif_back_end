@@ -2,6 +2,7 @@ package com.projetCertif.service;
 
 import com.projetCertif.config.PasswordEncoderUtil;
 import com.projetCertif.dao.entity.User;
+import com.projetCertif.dao.entityDto.UserLoginRequest;
 import com.projetCertif.dao.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -75,5 +76,8 @@ public class UserService {
         User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));;
         user.setPicture(image.getBytes());
         userRepository.save(user);
+    }
+    public User login(UserLoginRequest userLoginRequest)  {
+        return userRepository.findbyUsernameAndPassword(userLoginRequest.getUsername(), userLoginRequest.getPassword());
     }
 }
