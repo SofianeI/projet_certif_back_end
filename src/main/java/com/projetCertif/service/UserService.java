@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 @Service
 public class UserService {
 
@@ -67,5 +69,11 @@ public class UserService {
         user.setLastname(lastname);
         user.setPassword(hashedPassword);
         return userRepository.save(user);
+    }
+
+    public void uploadImageProfile(Long id, MultipartFile image) throws IOException {
+        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));;
+        user.setPicture(image.getBytes());
+        userRepository.save(user);
     }
 }
