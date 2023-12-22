@@ -2,6 +2,7 @@ package com.projetCertif.controller;
 
 import com.projetCertif.dao.entity.User;
 import com.projetCertif.dao.entityDto.UserDto;
+import com.projetCertif.dao.entityDto.UserLoginRequest;
 import com.projetCertif.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -80,4 +81,14 @@ public class UserControllerDto {
         return ResponseEntity.ok("Image inserted with success");
     }
 
+    @PostMapping("users/login")
+    public Object login(@RequestBody UserLoginRequest userLoginRequest) throws Exception {
+        Optional<User> user = Optional.ofNullable(userService.login(userLoginRequest));
+        UserDto userDto = UserDto.fromEntity(user);
+        if(userDto == null) {
+            return  ResponseEntity.notFound().build();
+        } else {
+            return userDto;
+        }
+    }
 }
